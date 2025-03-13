@@ -1,73 +1,100 @@
-<!-- Adding a GIF after main title -->
+```markdown
+# Veracidade Online
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/text.gif">
 </p>
 
-<h1 align="center">IFAKE - Image/Video Forgery Detection Application</h1>
+<div align="center">
+    <h3>Sistema de Verificação de Autenticidade de Conteúdo Digital</h3>
+    <p>Baseado no projeto <a href="https://github.com/shraddhavijay/IFAKE">IFAKE</a></p>
+</div>
 
-This repository contains two main folders:
+## 📋 Sobre o Projeto
 
-1. **IFAKE_AI** - This folder contains the AI Jupyter notebook files used to create the proposed CNN model for forgery detection and classification. The notebook files demonstrate the process of training and testing the model on the FIDAC & CASIA dataset.
+O Veracidade Online é uma iniciativa acadêmica dedicada à investigação e verificação da autenticidade de conteúdo digital, com foco em identificar e combater a disseminação de imagens e vídeos manipulados nas redes sociais e internet. O projeto utiliza como base o IFAKE, uma aplicação robusta de detecção de falsificações em imagens e vídeos.
 
-2. **IFAKE_WebApp** - This folder contains the web application project. The web application is built on the Django framework and provides a user-friendly interface for detecting image and video forgeries.
+### Objetivo Principal
+Aplicar e expandir as capacidades do IFAKE para criar uma solução eficiente de verificação de autenticidade de conteúdos digitais, visando combater a desinformação através da detecção de manipulações digitais.
 
-## Research Paper and Dataset
-
-Our research paper titled "[Image Forgery Detection and Classification Using Deep Learning and FIDAC Dataset](https://ieeexplore.ieee.org/document/9862034)" is published on IEEE Explore. In this paper, we propose our model that uses CNN for classification after being fed with ELA preprocessed images to detect image forgery, and we also introduce our created dataset - FIDAC (Forged Images Detection And Classification), which consists of original cameraclicked images along with their tampered version. Furthermore, we conducted an experimental analysis wherein we compared our proposed CNN model with famous pre-defined models on various datasets combinations.
-
-The [FIDAC dataset](https://ieee-dataport.org/documents/fidac-forged-images-detection-and-classification) is available on IEEE Dataport and contains original camera-clicked images along with their tampered versions. The dataset was used to train and test our proposed CNN model and compare it with other pre-defined models on various datasets combinations.
+## 🚀 Funcionalidades Principais
 
 
+### 1. Detecção de Falsificação em Imagens
+- Detecção de manipulações usando CNN
+- Análise através de Error Level Analysis (ELA)
+- Classificação de imagens originais e manipuladas
+- Geração de relatórios detalhados
 
-## Pre-trained Models
+### 2. Detecção de Falsificação em Vídeos
+- Análise frame por frame
+- Detecção de inconsistências temporais
+- Identificação de manipulações em vídeos
+- Relatório de análise de vídeo
 
-We provide links to download our pre-trained models for image & video forgery detection and classification:
+### 3. Análise de Metadados
+- Extração e análise de dados EXIF
+- Verificação de informações da câmera
+- Histórico de modificações
+- Detalhes técnicos da imagem/vídeo
 
-- [Image Model weigths](https://drive.google.com/drive/folders/1B4ODeK_QQ6XMFo6i6EEup1nZC6PllVfu?usp=sharing)
-- [Video Model weigths](https://drive.google.com/drive/folders/1irYZbRnr4Y7jKieSyhjxHxwk43oSMqh-?usp=sharing)
+### 4. Recursos Adicionais
+- Interface web intuitiva
+- Geração de relatórios em PDF
+- Visualização de resultados em tempo real
+- Suporte a múltiplos formatos de arquivo
 
-## Running the Web Application
+### 5. Sistema de Educação e Conscientização
+- Base de conhecimento sobre manipulações digitais
+- Exemplos de casos reais
+- Guias de boas práticas
+- Material educativo sobre verificação de autenticidade
 
-To run the web application on Windows, Linux, or Mac, follow these steps:
 
-1. Install Python3 and pip3
-2. Clone this repository
-3. Open a terminal and navigate to the IFAKE_WebApp folder
-4. Run the following command to install the required Python packages:
+## 🛠️ Configuração do Ambiente
 
-    ```
-    pip3 install -r requirements.txt
-    ```
+### Pré-requisitos
+- Python3 e pip3
+- Dependências específicas listadas em `requirements.txt`
 
-5. Run the following command to start the web application:
+### Instalação
 
-    ```
-    python3 manage.py runserver
-    ```
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/veracidade-online.git
 
-6. Open a web browser and go to http://127.0.0.1:8000/ to access the web application.
+# Entre no diretório
+cd veracidade-online
 
-## Screenshots
+# Instale as dependências
+pip3 install -r requirements.txt
+
+# Inicie a aplicação
+python3 manage.py runserver
+
+
+Acesse http://127.0.0.1:8000/ para utilizar a aplicação.
+
+## 📸 Screenshots
 <img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/index.JPG" alt="Image description" width="60%">
 <img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/imageDetection1.png" alt="Image description" width="60%">
-<img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/imageDetection2.png" alt="Image description" width="60%">
 <img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/metadata.JPG" alt="Image description" width="60%">
-<img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/videoDetection.png" alt="Image description" width="60%">
-<img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/pdfDetection.png" alt="Image description" width="60%">
 
+## 📚 Base Científica
 
+Este projeto é baseado no artigo "[Image Forgery Detection and Classification Using Deep Learning and FIDAC Dataset](https://ieeexplore.ieee.org/document/9862034)", publicado no IEEE Explore, que apresenta o modelo CNN utilizado no IFAKE e o dataset FIDAC.
 
+O [dataset FIDAC](https://ieee-dataport.org/documents/fidac-forged-images-detection-and-classification) está disponível no IEEE Dataport e contém imagens originais junto com suas versões adulteradas.
 
-The screenshots show different features of our web application, including the image and video forgery detection functionality, and the ability to upload and view results of detected forgeries.
+## 🙏 Créditos
 
-## Contributors
+Este projeto é baseado no IFAKE, desenvolvido por:
 - Shraddha Pawar
 - Gaurangi Pradhan
 - Bhavin Goswami
 
+## 📝 Licença
 
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-"# VeracidadeOnline" 
+```
