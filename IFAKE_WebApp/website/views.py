@@ -5,7 +5,7 @@ from multiprocessing import Pool
 import numpy as np
 import subprocess
 
-import streamlit as st
+#import streamlit as st
 import sys
 import os
 from website.ImageForgeryDetection.FakeImageDetector import FID
@@ -38,22 +38,34 @@ inputImage=''
 
 def getMetaData(path):
     global infoDict
-    # CODE for metadata starts
-    imgPath = path
-    exeProcess = "hachoir-metadata"
-    process = subprocess.Popen([exeProcess, imgPath],
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                               universal_newlines=True)
+    try:
+        from PIL import Image
+        from PIL.ExifTags import TAGS
 
-    for tag in process.stdout:
-        line = tag.strip().split(':')
-        infoDict[line[0].strip()] = line[-1].strip()
+        # Abrir imagem
+        image = Image.open(path)
 
-    for k, v in infoDict.items():
-        print(k, ':', v)
-    if "Metadata" in infoDict.keys():
-        del infoDict["Metadata"]
-    # CODE for metadata ends
+        # Informações básicas
+        infoDict = {
+            "Format": image.format,
+            "Mode": image.mode,
+            "Size": f"{image.size[0]}x{image.size[1]}",
+        }
+
+        # Tentar extrair EXIF
+        try:
+            exif = image.getexif()
+            if exif:
+                for tag_id in exif:
+                    tag = TAGS.get(tag_id, tag_id)
+                    data = exif.get(tag_id)
+                    infoDict[tag] = str(data)
+        except:
+            pass
+
+    except Exception as e:
+        print(f"Erro ao extrair metadados: {e}")
+        infoDict = {"Error": "Não foi possível extrair metadados"}
 
 
 def get_video_metadata(filename):

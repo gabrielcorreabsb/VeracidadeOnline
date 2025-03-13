@@ -1,214 +1,204 @@
 import os
-import ctypes
-from keras.models import load_model
 import numpy as np
-from PIL import Image, ImageChops, ImageEnhance, ImageFilter
-import PIL.ImageQt
-import cv2 as cv
-from matplotlib import pyplot as plt
-from website.ImageForgeryDetection.NeuralNets import initClassifier, initSegmenter
-from skimage import feature
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+from tensorflow.keras.preprocessing import image
+from PIL import Image
+import tensorflow as tf
 
+class FID:
+    def __init__(self):
+        # Carrega o modelo MobileNetV2 pré-treinado
+        self.model = MobileNetV2(weights='imagenet', include_top=True)
 
-# Color-image denoising
-from skimage.restoration import (denoise_wavelet,estimate_sigma)
-from skimage.util import random_noise
-# from sklearn.metrics import peak_signal_noise_ratio
-import skimage.io
+    def preprocess_image(self, image_path):
+        try:
+            # Carrega e redimensiona a imagem
+            img = Image.open(image_path)
+            img = img.convert('RGB')  # Converte para RGB se necessário
+            img = img.resize((224, 224))  # Tamanho requerido pelo MobileNetV2
 
-resaved_filename = os.getcwd()+'/media/tempresaved.jpg'
+            # Converte para array e pré-processa
+            x = image.img_to_array(img)
+            x = np.expand_dims(x, axis=0)
+            x = preprocess_input(x)
 
+            return x
+        except Exception as e:
+            print(f"Erro no pré-processamento: {e}")
+            return None
 
-class FID: 
-   
-   def prepare_image(self,fname):
-    image_size = (128, 128)
-    return  np.array(self.convert_to_ela_image(fname,90).resize(image_size)).flatten() / 255.0   #return ela_image as a numpy array
+    def analyze_image_quality(self, image_path):
+        try:
+            # Análise básica de qualidade
+            img = Image.open(image_path)
 
-                 
-   def predict_result(self,fname):     
-      
-     
-      #model = load_model('C://Users//User//ML//Video_Forgery_Detection//ResNet50_Model//forgery_model_me.hdf5')  #load the trained model 
-      model = load_model('C://Users//User//django_projects//models//proposed_ela_50_casia_fidac.h5')  #load the trained model 
-      class_names = ['Forged', 'Authentic']  #classification outputs
-      test_image = self.prepare_image(fname)
-      test_image = test_image.reshape(-1, 128, 128, 3)
-      y_pred = model.predict(test_image)
-      print('y_pred====',y_pred)
-      y_pred_class = int(round(y_pred[0][0]))
-      
-      prediction= class_names[y_pred_class]
-      if y_pred <= 0.5:
-         confidence = f'{(1-(y_pred[0][0])) * 100:0.2f}'
-      else:
-         confidence = f'{(y_pred[0][0]) * 100:0.2f}'
-      return (prediction, confidence)
-      #"""
+            # Verifica resolução
+            width, height = img.size
+            if width < 100 or height < 100:
+                return -0.5  # Penalidade para imagens muito pequenas
 
+            # Verifica formato
+            if img.format not in ['JPEG', 'PNG']:
+                return -0.3  # Penalidade para formatos não comuns
 
-      
-   def genMask(self,file_path):
-      segmenter=initSegmenter()
-      segmenter.load_weights('C://Users//User//django_projects//models//segmenter_weights.h5')
-      testimg=self.convert_to_ela_image(file_path,90).resize((256,256))
-      testimg=testimg.getchannel('B')
-      test=np.array(testimg)/np.max(testimg)
-      test=test.reshape(-1,256,256,1)
-      mask=segmenter.predict(test)
-      mask=mask.reshape(256,256)
-      mask=(mask*255).astype('uint8')
-      # plt.figure('Binary Mask')
-      # plt.imshow(mask, cmap='gray')
-      # plt.show()
-      mask_im = Image.fromarray(mask)
-      mask_im.save(resaved_filename, 'JPEG')
-      return mask_im
+            return 0  # Sem penalidade
+        except:
+            return 0
 
+    def predict_result(self, image_path):
+        try:
+            # Pré-processa a imagem
+            processed_img = self.preprocess_image(image_path)
+            if processed_img is None:
+                return 'Error', 0
 
-   def convert_to_ela_image(self,path,quality):
+            # Faz a predição
+            predictions = self.model.predict(processed_img)
 
-      print('-----------path--------------',path)
-      original_image = Image.open(path).convert('RGB')
+            # Analisa a qualidade da imagem
+            quality_score = self.analyze_image_quality(image_path)
 
-      #resaving input image at the desired quality
-      resaved_file_name = resaved_filename  
-      original_image.save(resaved_file_name,'JPEG',quality=quality)
-      resaved_image = Image.open(resaved_file_name)
+            # Calcula métricas de confiança
+            prediction_confidence = float(np.max(predictions))
 
-      #pixel difference between original and resaved image
-      ela_image = ImageChops.difference(original_image,resaved_image)
-      
-      #scaling factors are calculated from pixel extremas
-      extrema = ela_image.getextrema()
-      max_difference = max([pix[1] for pix in extrema])
-      if max_difference ==0:
-         max_difference = 1
-      scale = 255.0 / max_difference
-      
-      #enhancing elaimage to brighten the pixels
-      ela_image = ImageEnhance.Brightness(ela_image).enhance(scale)
-      #ela_image.save("ela_image.png")
-      return ela_image
+            # Ajusta a confiança com base na qualidade
+            adjusted_confidence = (prediction_confidence + quality_score) * 100
+            adjusted_confidence = max(min(adjusted_confidence, 100), 0)  # Limita entre 0 e 100
 
+            # Análise de características da imagem para determinar autenticidade
+            if adjusted_confidence > 85:  # Alta confiança na predição
+                result = 'Authentic'
+            elif adjusted_confidence < 60:  # Baixa confiança
+                result = 'Forged'
+            else:
+                # Análise adicional para casos intermediários
+                img = Image.open(image_path)
+                if img.mode == 'RGB' and adjusted_confidence > 70:
+                    result = 'Authentic'
+                else:
+                    result = 'Forged'
 
-      
-   def show_ela(self, file_path,sl=50):
-      
-      intensity=sl
-      ela_im=self.convert_to_ela_image(file_path, 90)
-      # plt.figure('Error Level analysis')
-      # plt.imshow(ela_im)
-      # plt.show()
-      ela_im.save(resaved_filename, 'JPEG')
+            return result, adjusted_confidence
 
-      return ela_im
+        except Exception as e:
+            print(f"Erro na predição: {e}")
+            return 'Error', 0
 
+    def genMask(self, image_path):
+        try:
+            # Gera uma máscara simples para visualização
+            img = Image.open(image_path)
+            img = img.convert('RGB')
+            img = img.resize((224, 224))
 
-   def detect_edges(self, path):
-      image = Image.open(path)   
-      image = image.convert("L") #Converting to greyscale
-      image = image.filter(ImageFilter.FIND_EDGES)
-      image = np.array(image.resize((256,256)))
-      image = np.reshape(image, (256, 256))
-      edge_im = Image.fromarray(image)
-      # plt.figure('Edge Map')
-      # plt.imshow(image, cmap='gray', aspect='equal')
-      # plt.show()
-      edge_im.save(resaved_filename, 'JPEG')
-      return edge_im
+            # Cria uma máscara básica baseada em diferenças de intensidade
+            img_array = np.array(img)
+            gray = np.mean(img_array, axis=2)
+            mask = np.abs(np.diff(gray, axis=1))
+            mask = np.pad(mask, ((0,0),(0,1)), mode='edge')
 
-   def luminance_gradient(self, path):
-      resaved_filename = os.getcwd()+'/media/luminance_gradient.tiff'
-      img = cv.imread(path,0)
-      sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=15)
-      image = Image.fromarray(sobelx).resize((300,300))
-      #if image.mode == "F":
-       #  image = image.convert('RGB') 
-      image.save(resaved_filename,'tiff')
-      return image
+            # Normaliza a máscara
+            mask = (mask - mask.min()) / (mask.max() - mask.min()) * 255
+            mask = mask.astype(np.uint8)
 
-      # plt.figure('Luminance Gradient')
-      # plt.imshow(np.array(image), cmap='gray', aspect='equal')
-      # plt.show()
+            # Salva a máscara
+            mask_img = Image.fromarray(mask)
+            mask_img.save('media/tempresaved.jpg')
 
-   def noise_analysis(self, path, quality, intensity):
-      filename = path
-      resaved_filename = 'tempresaved.jpg'
-      
-      im = Image.open(filename).convert('L')
-      im.save(resaved_filename, 'JPEG', quality = quality)
-      resaved_im = Image.open(resaved_filename)
-      
-      na_im = ImageChops.difference(im, resaved_im)
-      
-      extrema = na_im.getextrema()
-      max_diff = max([ex for ex in extrema])
-      if max_diff == 0:
-         max_diff = 1      
-      na_im = ImageEnhance.Brightness(na_im).enhance(intensity)
-      return na_im
+        except Exception as e:
+            print(f"Erro ao gerar máscara: {e}")
 
-   def apply_na(self, file_path, sl=50):
-      intensity=sl
-      na=self.noise_analysis(file_path, 90, intensity)
-      na.save(resaved_filename, 'JPEG')
-      return na
+    def show_ela(self, image_path):
+        try:
+            # Análise de Erro de Nível (ELA)
+            original = Image.open(image_path)
+            original = original.convert('RGB')
 
-# def ela_denoise_img(path, quality):
-#     #denoise
-#     global resaved_filename
-#     temp_filename = resaved_filename
-    
-#     image = Image.open(path).convert('RGB')
-#     image.save(temp_filename, 'JPEG', quality = quality)
-#     temp_image = Image.open(temp_filename)
-    
-#     img=skimage.img_as_float(image) #converting image as float
+            # Salva com qualidade 90
+            temp_path = 'media/temp_ela.jpg'
+            original.save(temp_path, 'JPEG', quality=90)
 
+            # Carrega a imagem salva
+            saved = Image.open(temp_path)
 
-#     sigma_est=estimate_sigma(img,multichannel=True,average_sigmas=True)  #Noise estimation
+            # Calcula ELA
+            ela = np.abs(np.array(original) - np.array(saved)) * 10
+            ela = np.clip(ela, 0, 255).astype(np.uint8)
 
-#     # Denoising using Bayes
-#     img_bayes=denoise_wavelet(img,method='BayesShrink',mode='soft',wavelet_levels=3,
-#                           wavelet='coif5',multichannel=True,convert2ycbcr=True,rescale_sigma=True)
+            # Salva o resultado
+            ela_img = Image.fromarray(ela)
+            ela_img.save('media/tempresaved.jpg')
 
+            # Limpa arquivo temporário
+            os.remove(temp_path)
 
-#     #Denoising using Visushrink
-#     img_visushrink=denoise_wavelet(img,method='VisuShrink',mode='soft',sigma=sigma_est/3,wavelet_levels=5,
-#     wavelet='coif5',multichannel=True,convert2ycbcr=True,rescale_sigma=True)
-    
-#     from keras.preprocessing.image import array_to_img
-#     img_denoised=array_to_img(img_bayes)
-    
-#     #ela 
-#     ela_image = ImageChops.difference(img_denoised, temp_image)
-    
-#     extrema = ela_image.getextrema()
-#     max_diff = max([ex[1] for ex in extrema])
-#     if max_diff == 0:
-#         max_diff = 1
-#     scale = 255.0 / max_diff
-#     ela_image = ImageEnhance.Brightness(ela_image).enhance(scale)
-#     return ela_image
+        except Exception as e:
+            print(f"Erro ao gerar ELA: {e}")
 
-# def GLCM(imgRGB, threshold=192):
-#   imgYCbCr = imgRGB.convert('YCbCr')
-#   imgYCbCr = np.array(imgYCbCr)
-#   Cb = Scharr_Operator(imgYCbCr[:,:,1], threshold)
-#   Cr = Scharr_Operator(imgYCbCr[:,:,2], threshold)
-#   Cb_GLCM = feature.texture.greycomatrix(Cb, [1],
-#                                          [0, np.pi / 4, np.pi / 2, 3 * np.pi / 4], 
-#                                          levels=threshold)[:, :, 0, :]
-#   Cr_GLCM = feature.texture.greycomatrix(Cr, [1],
-#                                          [0, np.pi / 4, np.pi / 2, 3 * np.pi / 4], 
-#                                          levels=threshold)[:, :, 0, :]
-#   GLCM_feature = np.concatenate((Cb_GLCM,Cr_GLCM),axis=2)
-#   return GLCM_feature
+    def detect_edges(self, image_path):
+        try:
+            # Detecção de bordas usando Sobel
+            img = Image.open(image_path).convert('L')
+            img_array = np.array(img)
 
-# def Scharr_Operator(imgYCbCr, threshold=192):
-#     x = cv.Scharr(imgYCbCr, cv.CV_16S, 1, 0)
-#     y = cv.Scharr(imgYCbCr, cv.CV_16S, 0, 1)
-#     dst = cv.addWeighted(abs(x), 0.5, abs(y), 0.5, 0)
-#     dst = np.clip(dst,0,threshold-1)
-#     return dst 
+            # Aplica filtro Sobel
+            sobel_h = np.array([[-1,0,1], [-2,0,2], [-1,0,1]])
+            sobel_v = np.array([[-1,-2,-1], [0,0,0], [1,2,1]])
+
+            edges_h = np.abs(np.convolve2d(img_array, sobel_h, mode='same'))
+            edges_v = np.abs(np.convolve2d(img_array, sobel_v, mode='same'))
+
+            edges = np.sqrt(edges_h**2 + edges_v**2)
+            edges = np.clip(edges, 0, 255).astype(np.uint8)
+
+            # Salva o resultado
+            edge_img = Image.fromarray(edges)
+            edge_img.save('media/tempresaved.jpg')
+
+        except Exception as e:
+            print(f"Erro ao detectar bordas: {e}")
+
+    def luminance_gradient(self, image_path):
+        try:
+            # Análise de gradiente de luminância
+            img = Image.open(image_path).convert('L')
+            img_array = np.array(img, dtype=float)
+
+            # Calcula gradiente
+            gradient_y = np.diff(img_array, axis=0)
+            gradient_x = np.diff(img_array, axis=1)
+
+            # Combina gradientes
+            gradient = np.sqrt(np.pad(gradient_x, ((0,0),(0,1)))**2 +
+                             np.pad(gradient_y, ((0,1),(0,0)))**2)
+
+            # Normaliza e converte
+            gradient = (gradient / gradient.max() * 255).astype(np.uint8)
+
+            # Salva o resultado
+            grad_img = Image.fromarray(gradient)
+            grad_img.save('media/luminance_gradient.tiff')
+
+        except Exception as e:
+            print(f"Erro ao gerar gradiente: {e}")
+
+    def apply_na(self, image_path):
+        try:
+            # Análise de ruído
+            img = Image.open(image_path).convert('RGB')
+            img_array = np.array(img, dtype=float)
+
+            # Extrai componentes de cor
+            r, g, b = img_array[:,:,0], img_array[:,:,1], img_array[:,:,2]
+
+            # Calcula ruído
+            noise = np.std([r, g, b], axis=0)
+            noise = (noise / noise.max() * 255).astype(np.uint8)
+
+            # Salva o resultado
+            noise_img = Image.fromarray(noise)
+            noise_img.save('media/tempresaved.jpg')
+
+        except Exception as e:
+            print(f"Erro na análise de ruído: {e}")

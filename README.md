@@ -17,10 +17,12 @@ Aplicar e expandir as capacidades do IFAKE para criar uma solução eficiente de
 ## 🚀 Funcionalidades Principais
 
 ### 1. Detecção de Falsificação em Imagens
-- Detecção de manipulações usando CNN
-- Análise através de Error Level Analysis (ELA)
-- Classificação de imagens originais e manipuladas
-- Geração de relatórios detalhados
+- Detecção de imagens falsificadas usando MobileNetV2
+- Análise de Error Level Analysis (ELA)
+- Detecção de bordas
+- Análise de gradiente de luminância
+- Análise de ruído
+- Extração de metadados de imagens
 
 ### 2. Detecção de Falsificação em Vídeos
 - Análise frame por frame
@@ -62,11 +64,14 @@ git clone https://github.com/seu-usuario/veracidade-online.git
 # Entre no diretório
 cd veracidade-online
 
-# Instale as dependências
-pip3 install -r requirements.txt
+# use o PowerShell para abrir o install.ps1
+./installps1
+
+# Instale as dependências, caso use o PowerShell, ignore essa etapa
+pip3 install -r requirements.txt ou #py para windows
 
 # Inicie a aplicação
-python3 manage.py runserver
+python3 manage.py runserver #py para windows
 ```
 
 Acesse `http://127.0.0.1:8000/` para utilizar a aplicação.
