@@ -1,7 +1,7 @@
 # Veracidade Online
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/text.gif" alt="Veracidade Online">
+  <img src="https://github.com/gabrielcorreabsb/VeracidadeOnline/blob/main/assets/imgs/logo.png?raw=true" alt="Veracidade Online">
   <h3>Sistema de Verificação de Autenticidade de Conteúdo Digital</h3>
   <p>Baseado no projeto <a href="https://github.com/shraddhavijay/IFAKE">IFAKE</a></p>
 </div>
