@@ -1,6 +1,3 @@
-
-
-```markdown
 # Veracidade Online
 
 <div align="center">
@@ -100,4 +97,4 @@ Este projeto é baseado no IFAKE, desenvolvido por:
 ## 📝 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-```
+
