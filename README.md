@@ -1,13 +1,12 @@
+
+
 ```markdown
 # Veracidade Online
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/text.gif">
-</p>
-
 <div align="center">
-    <h3>Sistema de Verificação de Autenticidade de Conteúdo Digital</h3>
-    <p>Baseado no projeto <a href="https://github.com/shraddhavijay/IFAKE">IFAKE</a></p>
+  <img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/text.gif" alt="Veracidade Online">
+  <h3>Sistema de Verificação de Autenticidade de Conteúdo Digital</h3>
+  <p>Baseado no projeto <a href="https://github.com/shraddhavijay/IFAKE">IFAKE</a></p>
 </div>
 
 ## 📋 Sobre o Projeto
@@ -15,10 +14,10 @@
 O Veracidade Online é uma iniciativa acadêmica dedicada à investigação e verificação da autenticidade de conteúdo digital, com foco em identificar e combater a disseminação de imagens e vídeos manipulados nas redes sociais e internet. O projeto utiliza como base o IFAKE, uma aplicação robusta de detecção de falsificações em imagens e vídeos.
 
 ### Objetivo Principal
+
 Aplicar e expandir as capacidades do IFAKE para criar uma solução eficiente de verificação de autenticidade de conteúdos digitais, visando combater a desinformação através da detecção de manipulações digitais.
 
 ## 🚀 Funcionalidades Principais
-
 
 ### 1. Detecção de Falsificação em Imagens
 - Detecção de manipulações usando CNN
@@ -50,10 +49,10 @@ Aplicar e expandir as capacidades do IFAKE para criar uma solução eficiente de
 - Guias de boas práticas
 - Material educativo sobre verificação de autenticidade
 
-
 ## 🛠️ Configuração do Ambiente
 
 ### Pré-requisitos
+
 - Python3 e pip3
 - Dependências específicas listadas em `requirements.txt`
 
@@ -71,14 +70,19 @@ pip3 install -r requirements.txt
 
 # Inicie a aplicação
 python3 manage.py runserver
+```
 
-
-Acesse http://127.0.0.1:8000/ para utilizar a aplicação.
+Acesse `http://127.0.0.1:8000/` para utilizar a aplicação.
 
 ## 📸 Screenshots
-<img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/index.JPG" alt="Image description" width="60%">
-<img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/imageDetection1.png" alt="Image description" width="60%">
-<img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/metadata.JPG" alt="Image description" width="60%">
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/index.JPG" alt="Página Inicial" width="80%">
+  <br><br>
+  <img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/imageDetection1.png" alt="Detecção de Imagem" width="80%">
+  <br><br>
+  <img src="https://raw.githubusercontent.com/shraddhavijay/IFAKE/master/screenshots/metadata.JPG" alt="Análise de Metadados" width="80%">
+</div>
 
 ## 📚 Base Científica
 
@@ -96,5 +100,4 @@ Este projeto é baseado no IFAKE, desenvolvido por:
 ## 📝 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ```
