@@ -54,6 +54,7 @@ Aplicar e expandir as capacidades do IFAKE para criar uma solução eficiente de
 
 - Python3 e pip3
 - Dependências específicas listadas em `requirements.txt`
+- Dataset: https://www.kaggle.com/datasets/awsaf49/artifact-dataset
 
 ### Instalação
 
