@@ -1,95 +1,175 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - IFAKE</title>
-    <meta name="description" content="Forgery Detection web app">
+    <title>Veracidade Online - Detecção de Adulterações</title>
+    <meta name="description" content="Plataforma educacional para detecção de adulterações em mídias digitais">
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i">
-    <link rel="stylesheet" href="{% static 'assets/css/Footer-Dark.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/modern-style.css' %}">
 </head>
 
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom">
-        <div class="container"><a class="navbar-brand" href="{% url 'index' %}">IFAKE</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive"><span class="navbar-toggler-icon"></span></button>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">Veracidade Online</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"></li>
-                    <li class="nav-item" role="presentation"></li>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sobre">SOBRE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#ferramentas">FERRAMENTAS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#educacional">EDUCACIONAL</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <header class="masthead text-center text-white">
-        <div class="masthead-content">
-            <div class="container">
-                <h1 class="masthead-heading mb-0">IFAKE</h1>
-                <h2 class="masthead-subheading mb-0">Image/Video Forgery Detection Web App</h2>
-                <a class="btn btn-primary btn-xl rounded-pill mt-5" role="button" href="{% url 'pdf' %}" style="margin-right: 10px;">PDF IFAKE</a>
-                <a class="btn btn-primary btn-xl rounded-pill mt-5" role="button" href="{% url 'image' %}" style="margin-right: 10px;">Image IFAKE</a>
-                <a class="btn btn-primary btn-xl rounded-pill mt-5" role="button" href="{% url 'video' %}" style="margin-left: 10px;">Video IFAKE</a></div>
+
+    <!-- Header -->
+<header class="modern-header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="header-headline">Verifique a Autenticidade de Conteúdo Digital</h1>
+                <p class="header-subheadline">Combata a desinformação online verificando imagens, vídeos e documentos PDF com nossa plataforma avançada.</p>
+                <div class="header-actions">
+                    <a class="btn btn-primary btn-header-action" href="{% url 'image' %}">
+                        <i class="fas fa-image"></i> Verificar Imagem
+                    </a>
+                    <a class="btn btn-primary btn-header-action" href="{% url 'video' %}">
+                        <i class="fas fa-video"></i> Verificar Vídeo
+                    </a>
+                    <a class="btn btn-primary btn-header-action" href="{% url 'pdf' %}">
+                        <i class="fas fa-file-pdf"></i> Verificar PDF
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="bg-circle-1 bg-circle"></div>
-        <div class="bg-circle-2 bg-circle"></div>
-        <div class="bg-circle-3 bg-circle"></div>
-        <div class="bg-circle-4 bg-circle"></div>
     </header>
-    <section>
+
+    <!-- Seção Sobre -->
+    <section id="sobre">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 order-lg-2">
-                    <div class="p-5"><img class="rounded-circle img-fluid" src="{% static 'assets/img/retouching.png' %}"></div>
+            <div class="info-card">
+                <h2>Por que verificar conteúdo digital?</h2>
+                <p class="lead">Na era da informação digital, distinguir o real do manipulado tornou-se um desafio crucial. Com o avanço das tecnologias de edição, qualquer conteúdo digital pode ser alterado de forma convincente.</p>
+            </div>
+
+            <div class="methodology-grid">
+                <div class="methodology-card">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Riscos da Desinformação</h4>
+                    <p>Conteúdos manipulados podem influenciar decisões importantes, afetar reputações e espalhar informações falsas rapidamente através das redes sociais.</p>
                 </div>
-                <div class="col-lg-6 order-lg-1">
-                    <div class="p-5">
-                        <h2 class="display-4">Image Forgery</h2>
-                        <p><strong>In recent days, an important problem in image forensic is to determine whether a specific image is authenticated or non-authenticated. It is a crucial process where the images are considered as major evidence to alter decision in various scenarios like court laws. For performing those forensic investigation, different technical devices and algorithms has been introduced in the present world.</strong><br><strong>The tampered images are used as proof in the court judgment to take false decision by providing false information as a portion of evidences.The available digital image forgery recognition methods are categorized into intrusive/non-blind and non-intrusive/blind.</strong><br></p>
-                    </div>
+                <div class="methodology-card">
+                    <h4><i class="fas fa-shield-alt"></i> Proteção Digital</h4>
+                    <p>Verificar a autenticidade de arquivos digitais é essencial para proteger-se contra fraudes e manipulações maliciosas.</p>
+                </div>
+                <div class="methodology-card">
+                    <h4><i class="fas fa-brain"></i> Consciência Crítica</h4>
+                    <p>Desenvolver habilidades de verificação ajuda a construir um senso crítico mais apurado no consumo de informações digitais.</p>
                 </div>
             </div>
         </div>
     </section>
-    <section>
+
+    <!-- Seção Ferramentas -->
+    <section id="ferramentas">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 order-lg-1">
-                    <div class="p-5"><img class="rounded-circle img-fluid" src="{% static 'assets/img/video-forgery.jpg' %}"></div>
+            <div class="info-card">
+                <h2>Nossas Ferramentas de Verificação</h2>
+                <p class="lead">Utilizamos tecnologias avançadas para analisar diferentes tipos de mídia digital.</p>
+            </div>
+
+            <div class="methodology-grid">
+                <div class="methodology-card">
+                    <h4><i class="fas fa-image"></i> Análise de Imagens</h4>
+                    <ul class="feature-list">
+                        <li>Detecção de manipulações por IA</li>
+                        <li>Análise de metadados EXIF</li>
+                        <li>Verificação de padrões de edição</li>
+                        <li>Identificação de montagens</li>
+                    </ul>
                 </div>
-                <div class="col-lg-6 order-lg-2">
-                    <div class="p-5">
-                        <h2 class="display-4">Video Forgery</h2>
-                        <p>Video Forgery is thus&nbsp;<strong>a technique of generating altered or fake videos by combining, altering or creating new video</strong>. Thus the authenticity of such digital videos is questionable and needs to be verified.</p>
-                    </div>
+                <div class="methodology-card">
+                    <h4><i class="fas fa-video"></i> Análise de Vídeos</h4>
+                    <ul class="feature-list">
+                        <li>Detecção de deepfakes</li>
+                        <li>Análise de consistência temporal</li>
+                        <li>Verificação de edições</li>
+                        <li>Identificação de alterações de áudio</li>
+                    </ul>
+                </div>
+                <div class="methodology-card">
+                    <h4><i class="fas fa-file-pdf"></i> Análise de PDFs</h4>
+                    <ul class="feature-list">
+                        <li>Verificação de assinaturas digitais</li>
+                        <li>Análise de modificações</li>
+                        <li>Verificação de integridade</li>
+                        <li>Detecção de alterações em texto</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
-    <section>
+
+    <!-- Seção Educacional -->
+    <section id="educacional">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 order-lg-2">
-                    <div class="p-5"><img class="rounded-circle img-fluid" src="{% static 'assets/img/ifake.jpg' %}"></div>
+            <div class="info-card">
+                <h2>Aprenda a Identificar Manipulações</h2>
+                <p class="lead">Dicas práticas para reconhecer conteúdo manipulado no dia a dia.</p>
+            </div>
+
+            <div class="methodology-grid">
+                <div class="methodology-card">
+                    <h4><i class="fas fa-search"></i> Sinais de Alerta em Imagens</h4>
+                    <ul class="feature-list">
+                        <li>Distorções em sombras e reflexos</li>
+                        <li>Inconsistências de iluminação</li>
+                        <li>Bordas irregulares ou borradas</li>
+                        <li>Padrões de repetição suspeitos</li>
+                    </ul>
                 </div>
-                <div class="col-lg-6 order-lg-1">
-                    <div class="p-5">
-                        <h2 class="display-4"><strong>IFAKE</strong><br></h2>
-                        <p>IFAKE is a web app which helps in detecting forgery of images and videos. The best part about ifake is, It can be accessed from anywhere anytime.&nbsp;</p>
-                    </div>
+                <div class="methodology-card">
+                    <h4><i class="fas fa-user-secret"></i> Identificando Deepfakes</h4>
+                    <ul class="feature-list">
+                        <li>Movimentos faciais não naturais</li>
+                        <li>Sincronização labial incorreta</li>
+                        <li>Texturas de pele artificiais</li>
+                        <li>Falhas em reflexos nos olhos</li>
+                    </ul>
+                </div>
+                <div class="methodology-card">
+                    <h4><i class="fas fa-file-alt"></i> Verificando Documentos</h4>
+                    <ul class="feature-list">
+                        <li>Inconsistências em fontes</li>
+                        <li>Alinhamentos irregulares</li>
+                        <li>Diferenças de resolução</li>
+                        <li>Marcas de edição digital</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
-    <footer class="py-5 bg-black">
+
+    <!-- Footer -->
+    <footer class="py-4 bg-black">
         <div class="container">
-            <p class="text-center text-white m-0 small">Copyright&nbsp;© IFAKE 2021</p>
+            <p class="text-center text-white m-0">© 2025 Veracidade Online - Projeto Acadêmico</p>
         </div>
     </footer>
+
     <script src="{% static 'assets/js/jquery.min.js' %}"></script>
     <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
 </body>

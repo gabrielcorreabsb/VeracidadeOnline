@@ -5,6 +5,7 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 import tensorflow as tf
+from scipy import signal  # Importe signal do SciPy
 
 class FID:
     def __init__(self):
@@ -146,8 +147,8 @@ class FID:
             sobel_h = np.array([[-1,0,1], [-2,0,2], [-1,0,1]])
             sobel_v = np.array([[-1,-2,-1], [0,0,0], [1,2,1]])
 
-            edges_h = np.abs(np.convolve2d(img_array, sobel_h, mode='same'))
-            edges_v = np.abs(np.convolve2d(img_array, sobel_v, mode='same'))
+            edges_h = np.abs(signal.convolve2d(img_array, sobel_h, mode='same')) # Use signal.convolve2d
+            edges_v = np.abs(signal.convolve2d(img_array, sobel_v, mode='same')) # Use signal.convolve2d
 
             edges = np.sqrt(edges_h**2 + edges_v**2)
             edges = np.clip(edges, 0, 255).astype(np.uint8)
