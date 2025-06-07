@@ -1,0 +1,8 @@
+Environment Info 
+Date: 2025-03-30_16-03 
+ 
+Python Version: 
+Python 3.12.9
+ 
+Pipenv Version: 
+pipenv, version 2024.4.1

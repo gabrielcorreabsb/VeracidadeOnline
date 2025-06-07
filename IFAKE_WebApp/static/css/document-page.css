@@ -1,0 +1,156 @@
+/* assets/css/image-page.css */
+
+.image-header {
+    padding-bottom: 4rem; /* Reduced padding for image header */
+}
+
+.main-content {
+    padding-top: 6rem; /* Adjust padding below navbar */
+    padding-bottom: 4rem;
+    background-color: var(--background-light); /* Light background for main content */
+}
+
+.info-card {
+    margin-bottom: 2rem;
+}
+
+.image-preview-container,
+.image-result-container {
+    background: var(--secondary);
+    border: 2px dashed #a6bddb; /* Lighter border */
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px; /* Reduced min-height */
+}
+
+.image-preview-container img,
+.image-result-container img {
+    max-width: 100%;
+    max-height: 400px; /* Adjusted max height */
+    object-fit: contain;
+}
+
+.result-card {
+    background: var(--secondary);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Softer shadow */
+}
+
+.metadata-card {
+    background: var(--secondary);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Softer shadow */
+}
+
+.table thead th {
+    background-color: var(--primary);
+    color: var(--secondary);
+    border: none;
+}
+
+.table tbody td {
+    border-color: #e9ecef; /* Light table border */
+}
+
+.analysis-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    justify-content: flex-start; /* Align buttons to start */
+}
+
+.btn-analysis {
+    background-color: #6c757d; /* Bootstrap secondary color - gray */
+    color: var(--secondary);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-analysis:hover {
+    background-color: #5a6268; /* Darker gray on hover */
+}
+
+.analysis-explanation {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.analysis-explanation li {
+    margin-bottom: 0.5rem;
+}
+
+.analysis-explanation strong {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .main-content {
+        padding-top: 4rem;
+        padding-bottom: 3rem;
+    }
+
+    .image-header {
+        padding-top: 6rem;
+        padding-bottom: 3rem;
+    }
+
+    .header-headline {
+        font-size: 2.2rem;
+    }
+
+    .header-subheadline {
+        font-size: 1rem;
+    }
+
+    .analysis-tools {
+        justify-content: center; /* Center buttons on smaller screens */
+    }
+    .btn-analysis {
+        width: auto; /* Adjust button width on smaller screens */
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .image-preview-container,
+    .image-result-container {
+        padding: 1rem; /* Reduce padding on small screens */
+        min-height: 250px; /* Further reduce min-height on small screens */
+    }
+    .image-preview-container img,
+    .image-result-container img {
+        max-height: 300px; /* Adjust max height for smaller screens */
+    }
+
+    .result-card, .metadata-card {
+        padding: 1rem; /* Reduce padding on small screens */
+    }
+
+    .analysis-explanation {
+        font-size: 0.9rem; /* Smaller font size for explanations */
+    }
+
+
+    .text-secondary{
+        color: var(--primary);
+    }
+
+}
