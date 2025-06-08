@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '3&%-jm4ccooczk9m-m^s@04_d8@!o+89(i_*zm3_hv!puvaz4-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ifake.gabrielcorrea.tech']
 
 
 # Application definition

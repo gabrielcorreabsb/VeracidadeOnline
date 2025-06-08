@@ -4,26 +4,23 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-# Removido 'typing-extensions' para deixar o resolvedor escolher a versão correta.
-# Removido 'protobuf' e 'keras' pois são dependências do TensorFlow e serão instalados automaticamente.
-# Trocado == por ~= para dar mais flexibilidade na resolução de dependências.
-
-streamlit = "~=0.81.1"
-django = "~=3.2.1"
-numpy = "~=1.19.5"
-scipy = "~=1.6.1"
-pandas = "~=1.2.3"
-tensorflow = "~=2.6.0"  # <-- Este pacote principal irá definir as versões de suas dependências.
-pillow = "~=9.5.0"
-opencv-contrib-python = "~=4.5.5"
-matplotlib = "~=3.3.4"
-scikit-image = "~=0.18.1"
-scikit-learn = "~=0.24.1"
-pdf2image = "~=1.16.0"
-tqdm = "~=4.59.0"
-pypdf2 = "~=3.0.1"
-python-docx = "==0.8.11"
-openpyxl = "~=3.1.2"
+django = "*"
+gunicorn = "*"
+numpy = "*"
+scipy = "*"
+pandas = "*"
+tensorflow = "~=2.10"  # <-- ATUALIZADO para uma versão compatível com ARM
+pillow = "*"
+opencv-contrib-python = "*"
+matplotlib = "*"
+scikit-image = "*"
+scikit-learn = "*"
+pdf2image = "*"
+tqdm = "*"
+pypdf2 = "*"
+python-docx = "*"      # <-- Agora podemos usar a versão mais recente
+openpyxl = "*"
+streamlit = "*"        # Mantendo para compatibilidade, se necessário
 
 [requires]
 python_version = "3.9"

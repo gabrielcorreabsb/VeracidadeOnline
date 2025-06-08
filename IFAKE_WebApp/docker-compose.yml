@@ -1,0 +1,27 @@
+# ~/IFAKE_WebApp/docker-compose.yml
+
+version: '3.8'
+
+services:
+  app:
+    build: .
+    restart: always
+    container_name: ifake_app
+    
+    # ---- ADIÇÃO CRÍTICA AQUI ----
+    # Mapeia a porta 8000 do HOST para a porta 8000 do CONTAINER
+    ports:
+      - "8000:8000"
+    
+    # 'expose' não é mais necessário se você usa 'ports', mas pode ser mantido
+    # expose:
+    #  - "8000"
+      
+    volumes:
+      - ./media:/app/media
+      - ./staticfiles:/app/staticfiles
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 8G

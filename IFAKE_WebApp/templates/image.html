@@ -66,7 +66,6 @@
                         </div>
                         <div class="image-preview-container">
                             <img id="upl_img" src='{{ input_image }}' class="zoom" data-magnify-src='{{ input_image }}'
-                                 onerror="this.src='https://media.istockphoto.com/vectors/fake-grunge-false-red-stamp-vector-id907865828'"
                                  alt="Pré-visualização da Imagem"
                                  style="max-width: 100%; max-height: 450px; object-fit: contain;">
                         </div>
@@ -140,7 +139,6 @@
                             {% if url %}
                             <img id="output_img" alt="Resultado da Análise" src="{{ url }}" class="zoom2"
                                  data-magnify-src='{{ url }}'
-                                 onerror="this.src='https://media.istockphoto.com/vectors/fake-grunge-false-red-stamp-vector-id907865828'"
                                  style="max-width: 100%; max-height: 450px; object-fit: contain;">
                             {% else %}
                             <div class="text-center p-3">
